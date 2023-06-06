@@ -6,6 +6,8 @@ import { ModulesContainer } from '@nestjs/core/injector/modules-container';
 import { MetadataScanner } from '@nestjs/core/metadata-scanner';
 import {
     AIXPAND_GATEWAY_METADATA,
+    CLIENT_EVENT_MAPPING_METADATA,
+    CLIENT_EVENT_SUBSCRIPTION_METADATA,
     NETWORK_CLIENT_METADATA,
     PAYLOAD_MAPPING_METADATA,
     PAYLOAD_SUBSCRIPTION_METADATA,
@@ -14,7 +16,7 @@ import {
 } from '../aixpand.constants';
 import { isFunction, isUndefined } from '@nestjs/common/utils/shared.utils';
 import { AiXpandNetworkGateway } from '../interfaces/aixpand.network.gateway';
-import { MessageMappingProperties } from '../interfaces/message.mapping.properties';
+import { MappingType, MessageMappingProperties } from '../interfaces/message.mapping.properties';
 import { IsObject } from '../utils';
 
 @Injectable()
@@ -49,13 +51,15 @@ export class MetadataExplorerService {
         const callback = instancePrototype[methodName];
         const isPayloadMapping = Reflect.getMetadata(PAYLOAD_MAPPING_METADATA, callback);
         const isNetworkStreamMapping = Reflect.getMetadata(STREAM_MAPPING_METADATA, callback);
+        const isClientEventMapping = Reflect.getMetadata(CLIENT_EVENT_MAPPING_METADATA, callback);
 
-        if (isUndefined(isPayloadMapping) && isUndefined(isNetworkStreamMapping)) {
+        if (isUndefined(isPayloadMapping) && isUndefined(isNetworkStreamMapping) && isUndefined(isClientEventMapping)) {
             return null;
         }
 
         const signature = Reflect.getMetadata(PAYLOAD_SUBSCRIPTION_METADATA, callback);
         const stream = Reflect.getMetadata(STREAM_SUBSCRIPTION_METADATA, callback);
+        const event = Reflect.getMetadata(CLIENT_EVENT_SUBSCRIPTION_METADATA, callback);
         const paramOrder = {
             error: null,
             payload: null,
@@ -71,10 +75,28 @@ export class MetadataExplorerService {
             }
         }
 
+        let type = MappingType.UNKNOWN;
+        let path = null;
+
+        switch (true) {
+            case isPayloadMapping:
+                path = signature;
+                type = MappingType.PAYLOAD;
+                break;
+            case isNetworkStreamMapping:
+                path = stream;
+                type = MappingType.STREAM;
+                break;
+            case isClientEventMapping:
+                path = event;
+                type = MappingType.CLIENT_EVENT;
+                break;
+        }
+
         return {
-            type: isUndefined(isPayloadMapping) ? 'stream' : 'payload',
+            type,
             callback,
-            signature: isUndefined(isPayloadMapping) ? stream : signature,
+            path,
             methodName,
             paramOrder,
         };

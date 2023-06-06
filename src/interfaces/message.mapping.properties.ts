@@ -1,7 +1,14 @@
+export enum MappingType {
+    PAYLOAD = 'payload',
+    STREAM = 'stream',
+    CLIENT_EVENT = 'client-event',
+    UNKNOWN = 'unknown',
+}
+
 export type MessageMappingProperties = {
-    type: string;
+    type: MappingType;
     callback: any;
-    signature: string;
+    path: string;
     methodName: string;
     paramOrder: {
         error: number | null;
