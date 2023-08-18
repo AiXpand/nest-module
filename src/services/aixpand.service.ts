@@ -1,7 +1,12 @@
 import { AiXpandNetworkGateway } from '../interfaces/aixpand.network.gateway';
 import { MappingType, MessageMappingProperties } from '../interfaces/message.mapping.properties';
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { AiXpandClient, AiXpandClientEventContext, AiXpandEventType, AiXPMessage } from '@aixpand/client';
+import {
+    AiXpandClient,
+    AiXpandClientEventContext,
+    AiXpandEventType,
+    AiXPMessage,
+} from '@aixpand/client';
 import { fromEvent } from 'rxjs';
 import { MetadataExplorerService } from './metadata.explorer.service';
 import { DEFAULT_CLIENT_NAME } from '../aixpand.constants';
