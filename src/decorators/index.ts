@@ -1,4 +1,4 @@
-export * from './aixpand.gateway.decorator';
+export * from './aixpand.consumer.decorator';
 export * from './instance.payload.decorator';
 export * from './network.client.decorator';
 export * from './network.stream.decorator';
