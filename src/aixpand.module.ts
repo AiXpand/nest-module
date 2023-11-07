@@ -188,6 +188,10 @@ export class AiXpandModule implements OnApplicationShutdown, OnApplicationBootst
             this.logger.log(`Successfully DEREGISTERED Execution Engine: ${status.executionEngine}`);
         });
 
+        client.on(AiXpandClientEvent.AIXP_BC_ADDRESS, (message) => {
+            this.logger.log(`AiXpand Blockchain Address: ${message.address}`);
+        });
+
         client.on(AiXpandClientEvent.AIXP_CLIENT_SYS_TOPIC_SUBSCRIBE, (err, data) => {
             if (err) {
                 this.logger.error(err.message, JSON.stringify(err));
