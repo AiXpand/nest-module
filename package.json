@@ -1,12 +1,13 @@
 {
   "name": "@aixpand/nest-module",
-  "version": "0.2.0",
+  "version": "0.2.22",
   "description": "This is the official AiXpand NestJS module for integrating the AiXpand Network Client in a NestJS application.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "format": "prettier --write \"src/**/*.ts\"",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "aixpand:generate": "aixpand generate"
   },
   "repository": {
     "type": "git",
@@ -30,7 +31,7 @@
   },
   "homepage": "https://github.com/AiXpand/nest-module#readme",
   "dependencies": {
-    "@aixpand/client": "^0.26.0",
+    "@aixpand/client": "^0.29.5",
     "reflect-metadata": "^0.1.13",
     "typescript": "^5.1.6",
     "uuid": "^9.0.0"
