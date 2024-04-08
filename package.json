@@ -1,6 +1,6 @@
 {
   "name": "@aixpand/nest-module",
-  "version": "0.8.1",
+  "version": "0.8.6",
   "description": "This is the official AiXpand NestJS module for integrating the AiXpand Network Client in a NestJS application.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -32,7 +32,7 @@
   },
   "homepage": "https://github.com/AiXpand/nest-module#readme",
   "dependencies": {
-    "@aixpand/jsclient": "^2.1.0",
+    "@aixpand/jsclient": "^2.3.1",
     "reflect-metadata": "^0.1.13",
     "typescript": "^5.1.6",
     "uuid": "^9.0.0"
