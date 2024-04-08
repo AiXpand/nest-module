@@ -1,5 +1,6 @@
-export { AiXpandModule } from './aixpand.module';
-export { AIXPAND_MODULE_OPTIONS, DEFAULT_CLIENT_NAME } from './aixpand.constants';
-export * from './decorators';
-export * from './interfaces/aixpand.module.interfaces';
-export * from './interfaces/aixpand.network.gateway';
+export { AiXpandModule } from './aixpand.module.js';
+export { AIXPAND_MODULE_OPTIONS, DEFAULT_CLIENT_NAME } from './aixpand.constants.js';
+export * from './decorators/index.js';
+export * from './interfaces/aixpand.module.interfaces.js';
+export * from './interfaces/aixpand.network.gateway.js';
+export * from '@aixpand/jsclient';

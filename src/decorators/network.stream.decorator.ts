@@ -1,4 +1,4 @@
-import { STREAM_MAPPING_METADATA, STREAM_SUBSCRIPTION_METADATA } from '../aixpand.constants';
+import { STREAM_MAPPING_METADATA, STREAM_SUBSCRIPTION_METADATA } from '../aixpand.constants.js';
 
 /**
  * Subscribe to AiXpand Network event stream.

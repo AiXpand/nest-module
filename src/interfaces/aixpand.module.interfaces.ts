@@ -1,4 +1,4 @@
-import { AiXpandClient, AiXpandClientOptions } from '@aixpand/client';
+import { AiXpandClient, AiXpandClientOptions } from '@aixpand/jsclient';
 import { ModuleMetadata, Provider, Type } from '@nestjs/common';
 
 export type AiXpandClientFactory = (options?: AiXpandClientOptions) => Promise<AiXpandClient>;
@@ -8,7 +8,7 @@ export type AiXpandModuleOptions = AiXpandClientOptions;
 export interface AiXpandOptionsFactory {
     createAiXpandOptions( // TODO: implement this.
         initiator?: string,
-    ): Promise<AiXpandModuleOptions> | AiXpandModuleOptions;
+    ): Promise<AiXpandClientOptions> | AiXpandClientOptions;
 }
 
 export interface AiXpandModuleAsyncOptions extends Pick<ModuleMetadata, 'imports'> {

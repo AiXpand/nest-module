@@ -1,15 +1,10 @@
-import { AiXpandNetworkGateway } from '../interfaces/aixpand.network.gateway';
-import { MappingType, MessageMappingProperties } from '../interfaces/message.mapping.properties';
+import { AiXpandNetworkGateway } from '../interfaces/aixpand.network.gateway.js';
+import { MappingType, MessageMappingProperties } from '../interfaces/message.mapping.properties.js';
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import {
-    AiXpandClient,
-    AiXpandClientEventContext,
-    AiXpandEventType,
-    AiXPMessage,
-} from '@aixpand/client';
+import { AiXpandClient, AiXpandEventType } from '@aixpand/jsclient';
 import { fromEvent } from 'rxjs';
-import { MetadataExplorerService } from './metadata.explorer.service';
-import { DEFAULT_CLIENT_NAME } from '../aixpand.constants';
+import { MetadataExplorerService } from './metadata.explorer.service.js';
+import { DEFAULT_CLIENT_NAME } from '../aixpand.constants.js';
 
 @Injectable()
 export class AiXpandService {
@@ -62,6 +57,7 @@ export class AiXpandService {
         }));
 
         handlers.forEach(({ path, callback }) => {
+            // @ts-ignore
             client.on(path, (...args) => {
                 callback(...args);
             });
@@ -79,7 +75,7 @@ export class AiXpandService {
         }));
 
         handlers.forEach(({ path, callback }) => {
-            client.getStream(<AiXpandEventType>path).subscribe((message: AiXPMessage<any>) => {
+            client.getStream(<AiXpandEventType>path).subscribe((message: any) => {
                 callback(message);
             });
         });
@@ -97,12 +93,13 @@ export class AiXpandService {
         }));
 
         handlers.forEach(({ path, paramOrder, callback }) => {
-            fromEvent(client, path).subscribe(([executionContext, err, data]) => {
+            // @ts-ignore
+            fromEvent(client, path).subscribe(([err, executionContext, data]) => {
                 const { context, payload, error } = paramOrder;
                 const args = [];
 
                 if (context !== null) {
-                    args[context] = <AiXpandClientEventContext>executionContext;
+                    args[context] = executionContext;
                 }
                 if (payload !== null) {
                     args[payload] = data;

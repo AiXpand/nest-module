@@ -1,4 +1,4 @@
-import { PAYLOAD_MAPPING_METADATA, PAYLOAD_SUBSCRIPTION_METADATA } from '../aixpand.constants';
+import { PAYLOAD_MAPPING_METADATA, PAYLOAD_SUBSCRIPTION_METADATA } from '../aixpand.constants.js';
 
 /**
  * Subscribe to AiXpand Network PluginInstance payload.

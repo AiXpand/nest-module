@@ -1,9 +1,9 @@
 import 'reflect-metadata';
-import { Injectable } from '@nestjs/common';
-import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
-import { Module } from '@nestjs/core/injector/module';
-import { ModulesContainer } from '@nestjs/core/injector/modules-container';
-import { MetadataScanner } from '@nestjs/core/metadata-scanner';
+import { Injectable } from "@nestjs/common";
+import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper.js';
+import { Module } from '@nestjs/core/injector/module.js';
+import { ModulesContainer } from '@nestjs/core/injector/modules-container.js';
+import { MetadataScanner } from '@nestjs/core/metadata-scanner.js';
 import {
     AIXPAND_GATEWAY_METADATA,
     CLIENT_EVENT_MAPPING_METADATA,
@@ -13,11 +13,11 @@ import {
     PAYLOAD_SUBSCRIPTION_METADATA,
     STREAM_MAPPING_METADATA,
     STREAM_SUBSCRIPTION_METADATA,
-} from '../aixpand.constants';
-import { isFunction, isUndefined } from '@nestjs/common/utils/shared.utils';
-import { AiXpandNetworkGateway } from '../interfaces/aixpand.network.gateway';
-import { MappingType, MessageMappingProperties } from '../interfaces/message.mapping.properties';
-import { IsObject } from '../utils';
+} from '../aixpand.constants.js';
+import { isFunction, isUndefined } from '@nestjs/common/utils/shared.utils.js';
+import { AiXpandNetworkGateway } from '../interfaces/aixpand.network.gateway.js';
+import { MappingType, MessageMappingProperties } from '../interfaces/message.mapping.properties.js';
+import { IsObject } from '../utils.js';
 
 @Injectable()
 export class MetadataExplorerService {

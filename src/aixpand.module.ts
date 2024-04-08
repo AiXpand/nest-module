@@ -9,18 +9,18 @@ import {
     Type,
 } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
-import { AiXpandClientOptions, AiXpandClient, AiXpandClientEvent } from '@aixpand/client';
-import { AIXPAND_MODULE_ID, AIXPAND_MODULE_OPTIONS, DEFAULT_CLIENT_NAME } from './aixpand.constants';
+import { AiXpandClientOptions, AiXpandClient, AiXpandClientEvent } from '@aixpand/jsclient';
+import { AIXPAND_MODULE_ID, AIXPAND_MODULE_OPTIONS, DEFAULT_CLIENT_NAME } from './aixpand.constants.js';
 import {
     AiXpandClientFactory,
     AiXpandModuleAsyncOptions,
     AiXpandModuleOptions,
     AiXpandOptionsFactory,
-} from './interfaces/aixpand.module.interfaces';
+} from './interfaces/aixpand.module.interfaces.js';
 import { defer, lastValueFrom } from 'rxjs';
-import { AiXpandService } from './services/aixpand.service';
-import { MetadataExplorerService } from './services/metadata.explorer.service';
-import { MetadataScanner } from '@nestjs/core/metadata-scanner';
+import { AiXpandService } from './services/aixpand.service.js';
+import { MetadataExplorerService } from './services/metadata.explorer.service.js';
+import { MetadataScanner } from '@nestjs/core/metadata-scanner.js';
 import { v4 as uuid } from 'uuid';
 
 @Global()
@@ -30,7 +30,7 @@ import { v4 as uuid } from 'uuid';
 export class AiXpandModule implements OnApplicationShutdown, OnApplicationBootstrap {
     private static readonly logger = new Logger('AiXpandModule');
 
-    constructor(private readonly networkService: AiXpandService, private readonly moduleRef: ModuleRef) {}
+    constructor(private readonly networkService: AiXpandService, /* private readonly moduleRef: ModuleRef */) {}
 
     onApplicationBootstrap(): any {
         this.networkService.subscribe();
@@ -65,7 +65,6 @@ export class AiXpandModule implements OnApplicationShutdown, OnApplicationBootst
                     return await this.createNetworkClientFactory(
                         {
                             ...aiXpandOptions,
-                            name: options.name,
                         },
                         options.clientFactory,
                     );
@@ -98,14 +97,14 @@ export class AiXpandModule implements OnApplicationShutdown, OnApplicationBootst
     }
 
     async onApplicationShutdown(): Promise<any> {
-        const client = this.moduleRef.get<AiXpandClient>(DEFAULT_CLIENT_NAME);
-        try {
-            if (client) {
-                await client.shutdown();
-            }
-        } catch (e) {
-            AiXpandModule.logger.error(e?.message);
-        }
+        // const client = this.moduleRef.get<AiXpandClient>(DEFAULT_CLIENT_NAME);
+        // try {
+        //     if (client) {
+        //         await client.shutdown();
+        //     }
+        // } catch (e) {
+        //     AiXpandModule.logger.error(e?.message);
+        // }
     }
 
     private static createAsyncProviders(options: AiXpandModuleAsyncOptions): Provider[] {
@@ -148,7 +147,7 @@ export class AiXpandModule implements OnApplicationShutdown, OnApplicationBootst
         const createAiXpandClient =
             clientFactory ??
             ((options: AiXpandModuleOptions) => {
-                const client = new AiXpandClient(options as AiXpandClientOptions);
+                const client = new AiXpandClient(options as AiXpandClientOptions, this.logger);
                 client.boot();
 
                 this.attachLifecycleCallbacks(client);
@@ -164,34 +163,42 @@ export class AiXpandModule implements OnApplicationShutdown, OnApplicationBootst
     }
 
     private static attachLifecycleCallbacks(client: AiXpandClient) {
+        // @ts-ignore
         client.on(AiXpandClientEvent.AIXP_CLIENT_CONNECTED, (data) => {
             this.logger.log(`Succesfully connected to upstream: ${data.upstream}`);
         });
 
+        // @ts-ignore
         client.on(AiXpandClientEvent.AIXP_CLIENT_BOOTED, () => {
             this.logger.log('AiXpand Network client successfully booted.');
         });
 
+        // @ts-ignore
         client.on(AiXpandClientEvent.AIXP_CLIENT_SHUTDOWN, () => {
             this.logger.log('AiXpand Network client successfully shutdown.');
         });
 
+        // @ts-ignore
         client.on(AiXpandClientEvent.AIXP_ENGINE_OFFLINE, (data) => {
             this.logger.warn(`Execution Engine OFFLINE: ${data.executionEngine}`);
         });
 
+        // @ts-ignore
         client.on(AiXpandClientEvent.AIXP_ENGINE_REGISTERED, (status) => {
             this.logger.log(`Successfully REGISTERED new Execution Engine: ${status.executionEngine}`);
         });
 
+        // @ts-ignore
         client.on(AiXpandClientEvent.AIXP_ENGINE_DEREGISTERED, (status) => {
             this.logger.log(`Successfully DEREGISTERED Execution Engine: ${status.executionEngine}`);
         });
 
+        // @ts-ignore
         client.on(AiXpandClientEvent.AIXP_BC_ADDRESS, (message) => {
             this.logger.log(`AiXpand Blockchain Address: ${message.address}`);
         });
 
+        // @ts-ignore
         client.on(AiXpandClientEvent.AIXP_CLIENT_SYS_TOPIC_SUBSCRIBE, (err, data) => {
             if (err) {
                 this.logger.error(err.message, JSON.stringify(err));
@@ -204,6 +211,7 @@ export class AiXpandModule implements OnApplicationShutdown, OnApplicationBootst
             );
         });
 
+        // @ts-ignore
         client.on(AiXpandClientEvent.AIXP_CLIENT_SYS_TOPIC_UNSUBSCRIBE, (err, data) => {
             if (err) {
                 this.logger.error(err.message, JSON.stringify(err));

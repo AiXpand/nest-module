@@ -1,4 +1,4 @@
-import { CLIENT_EVENT_MAPPING_METADATA, CLIENT_EVENT_SUBSCRIPTION_METADATA } from '../aixpand.constants';
+import { CLIENT_EVENT_MAPPING_METADATA, CLIENT_EVENT_SUBSCRIPTION_METADATA } from '../aixpand.constants.js';
 
 /**
  * @param signature
